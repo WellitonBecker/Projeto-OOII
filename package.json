@@ -1,0 +1,19 @@
+{
+  "name": "projeto-ooii",
+  "version": "1.0.0",
+  "description": "Projeto para a aula de Orientação a Objetos II",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WellitonBecker/Projeto-OOII.git"
+  },
+  "author": "Welliton Luiz Becker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WellitonBecker/Projeto-OOII/issues"
+  },
+  "homepage": "https://github.com/WellitonBecker/Projeto-OOII#readme"
+}
