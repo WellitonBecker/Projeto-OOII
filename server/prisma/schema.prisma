@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  codigo     BigInt   @id @default(autoincrement())
+  email      String   @unique
+  nome       String
+  login      Int      @unique
+  senha      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  UsuarioEmpresa UsuarioEmpresa[]
+
+  @@map("usuarios")
+}
+
+model Empresa {
+  codigo     BigInt   @id @default(autoincrement())
+  nome       String
+  email      String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  UsuarioEmpresa UsuarioEmpresa[]
+  FrotaEmpresa   FrotaEmpresa[]
+
+  @@map("empresas")
+}
+
+model UsuarioEmpresa {
+  sequencia  BigInt @id @default(autoincrement())
+  codUsuario BigInt
+  codEmpresa BigInt
+
+  usuario Usuario @relation(fields: [codUsuario], references: [codigo])
+  empresa Empresa @relation(fields: [codEmpresa], references: [codigo])
+
+  @@map("usuario_empresa")
+}
+
+model TipoVeiculo {
+  codigo Int     @id @default(autoincrement())
+  nome   String
+  Frota  Frota[]
+
+  @@map("tipos_veiculos")
+}
+
+model Marca {
+  codigo Int     @id @default(autoincrement())
+  nome   String  @unique
+  pais   String
+  Frota  Frota[]
+
+  @@map("marcas")
+}
+
+model Frota {
+  codigo         Int    @id @default(autoincrement())
+  nome           String
+  ano            Int
+  codMarca       Int
+  codTipoVeiculo Int
+
+  marca        Marca          @relation(fields: [codMarca], references: [codigo])
+  tipoVeiculo  TipoVeiculo    @relation(fields: [codTipoVeiculo], references: [codigo])
+  FrotaEmpresa FrotaEmpresa[]
+
+  @@map("frotas")
+}
+
+model FrotaEmpresa {
+  codEmpresa BigInt
+  codFrota   Int
+  quantidade Int
+
+  empresa Empresa @relation(fields: [codEmpresa], references: [codigo])
+  frota   Frota   @relation(fields: [codFrota], references: [codigo])
+
+  @@id([codEmpresa, codFrota])
+  @@map("frotas_empresa")
+}
