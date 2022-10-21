@@ -11,10 +11,10 @@ datasource db {
 }
 
 model Usuario {
-  codigo     BigInt   @id @default(autoincrement())
+  codigo     String   @id @default(uuid())
   email      String   @unique
   nome       String
-  login      Int      @unique
+  login      String   @unique
   senha      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -25,7 +25,7 @@ model Usuario {
 }
 
 model Empresa {
-  codigo     BigInt   @id @default(autoincrement())
+  codigo     String   @id @default(uuid())
   nome       String
   email      String   @unique
   created_at DateTime @default(now())
@@ -38,9 +38,9 @@ model Empresa {
 }
 
 model UsuarioEmpresa {
-  sequencia  BigInt @id @default(autoincrement())
-  codUsuario BigInt
-  codEmpresa BigInt
+  sequencia  String @id @default(uuid())
+  codUsuario String
+  codEmpresa String
 
   usuario Usuario @relation(fields: [codUsuario], references: [codigo])
   empresa Empresa @relation(fields: [codEmpresa], references: [codigo])
@@ -49,15 +49,15 @@ model UsuarioEmpresa {
 }
 
 model TipoVeiculo {
-  codigo Int     @id @default(autoincrement())
-  nome   String
+  codigo String  @id @default(uuid())
+  nome   String  @unique
   Frota  Frota[]
 
   @@map("tipos_veiculos")
 }
 
 model Marca {
-  codigo Int     @id @default(autoincrement())
+  codigo String  @id @default(uuid())
   nome   String  @unique
   pais   String
   Frota  Frota[]
@@ -66,11 +66,11 @@ model Marca {
 }
 
 model Frota {
-  codigo         Int    @id @default(autoincrement())
+  codigo         String @id @default(uuid())
   nome           String
-  ano            Int
-  codMarca       Int
-  codTipoVeiculo Int
+  ano            String
+  codMarca       String
+  codTipoVeiculo String
 
   marca        Marca          @relation(fields: [codMarca], references: [codigo])
   tipoVeiculo  TipoVeiculo    @relation(fields: [codTipoVeiculo], references: [codigo])
@@ -80,8 +80,8 @@ model Frota {
 }
 
 model FrotaEmpresa {
-  codEmpresa BigInt
-  codFrota   Int
+  codEmpresa String
+  codFrota   String
   quantidade Int
 
   empresa Empresa @relation(fields: [codEmpresa], references: [codigo])

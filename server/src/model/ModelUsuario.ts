@@ -23,7 +23,7 @@ export class ModelUsuario {
         });
 
         if(loginExiste){
-            throw new AppError("Login já está sendo utilzado");
+            throw new AppError("Login já está sendo utilizado");
         }
 
         const usuario = await prisma.usuario.create({
