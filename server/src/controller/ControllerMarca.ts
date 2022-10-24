@@ -21,4 +21,16 @@ export class ControllerMarca {
         return res.status(201).json(result);
     }
 
+    async deletar(req: Request, res: Response) {
+        const modelMarca = new ModelMarca();
+        const codigo = req.params.codigo;
+
+        const result = await modelMarca.deletar(codigo);
+        if(result){
+            return res.status(200).send("Registro deletado com sucesso");
+        } else {
+            return res.status(200).send("Não foi possível excluir o registro");
+        }
+    }
+
 }

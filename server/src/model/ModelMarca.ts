@@ -6,13 +6,13 @@ import { prisma } from "../prisma/client";
 export class ModelMarca {
 
     async inserir({nome, pais}:InterfaceMarca): Promise<Marca> {
-        const emailExiste = await prisma.marca.findUnique({
+        const nomeExiste = await prisma.marca.findUnique({
             where: {
                 nome
             }
         });
 
-        if(emailExiste){
+        if(nomeExiste){
             throw new AppError("Nome já está sendo utilzado");
         }
 
@@ -31,4 +31,14 @@ export class ModelMarca {
 
         return marcas;
     }
+
+    async deletar(codigo:string) {
+        return await prisma.marca.delete({
+            where: {
+                codigo,
+                nome : "FIAT"
+            }
+        });
+    }
+
 }
