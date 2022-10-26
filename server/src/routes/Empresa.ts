@@ -6,5 +6,7 @@ const controllerEmpresa = new ControllerEmpresa();
 
 empresaRoutes.get("/", controllerEmpresa.listar);
 empresaRoutes.post("/", controllerEmpresa.inserir);
+empresaRoutes.delete("/:codigo", controllerEmpresa.deletar);
+empresaRoutes.get("/:codigo", controllerEmpresa.visualizar);
 
 export { empresaRoutes };

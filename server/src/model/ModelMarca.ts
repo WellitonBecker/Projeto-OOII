@@ -1,5 +1,6 @@
 import { Marca } from ".prisma/client";
 import { AppError } from "../errors/AppError";
+import { InterfaceConsulta } from "../interface/InterfaceConsulta";
 import { InterfaceMarca } from "../interface/InterfaceMarca";
 import { prisma } from "../prisma/client";
 
@@ -26,8 +27,16 @@ export class ModelMarca {
         return marca;
     }
 
-    async listar(): Promise<Marca[]>{
-        const marcas = await prisma.marca.findMany();
+    async listar({ take = '5', pagina = '1'}:InterfaceConsulta): Promise<Marca[]>{
+        take   = take === "" ? '5' : take;
+        pagina = pagina === "" ? '1' : pagina;
+
+        const skip = Number(pagina) > 1 ? (Number(pagina)-1) * Number(take) : 0;
+        
+        const marcas = await prisma.marca.findMany({
+            take:Number(take),
+            skip
+        });
 
         return marcas;
     }
@@ -41,4 +50,17 @@ export class ModelMarca {
         });
     }
 
+    async visualizar(codigo:string){
+        const marca = await prisma.marca.findUnique({
+            where:{
+                codigo
+            }
+        });
+
+        if(!marca){
+            throw new AppError(`Marca com o código '${codigo}' não existe`);
+        }
+        return marca;
+    }
+    
 }

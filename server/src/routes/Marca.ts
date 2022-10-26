@@ -6,6 +6,7 @@ const controllerMarca = new ControllerMarca();
 
 marcaRoutes.get("/", controllerMarca.listar);
 marcaRoutes.post("/", controllerMarca.inserir);
-marcaRoutes.delete("/:id", controllerMarca.deletar);
+marcaRoutes.delete("/:codigo", controllerMarca.deletar);
+marcaRoutes.get("/:codigo", controllerMarca.visualizar);
 
 export { marcaRoutes };

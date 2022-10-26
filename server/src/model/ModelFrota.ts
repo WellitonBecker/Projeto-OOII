@@ -1,5 +1,6 @@
 import { Frota } from ".prisma/client";
 import { AppError } from "../errors/AppError";
+import { InterfaceConsulta } from "../interface/InterfaceConsulta";
 import { InterfaceFrota } from "../interface/InterfaceFrota";
 import { prisma } from "../prisma/client";
 
@@ -39,9 +40,39 @@ export class ModelFrota {
         return frota;
     }
 
-    async listar(): Promise<Frota[]>{
-        const frotas = await prisma.frota.findMany();
+    async listar({ take = '5', pagina = '1'}:InterfaceConsulta): Promise<Frota[]>{
+        take   = take === "" ? '5' : take;
+        pagina = pagina === "" ? '1' : pagina;
+
+        const skip = Number(pagina) > 1 ? (Number(pagina)-1) * Number(take) : 0;
+        
+        const frotas = await prisma.frota.findMany({
+            take:Number(take),
+            skip
+        });
 
         return frotas;
     }
+
+    async deletar(codigo:string) {
+        return await prisma.frota.delete({
+            where: {
+                codigo
+            }
+        });
+    }
+
+    async visualizar(codigo:string){
+        const frota = await prisma.frota.findUnique({
+            where:{
+                codigo
+            }
+        });
+
+        if(!frota){
+            throw new AppError(`Frota com o código '${codigo}' não existe`);
+        }
+        return frota;
+    }
+
 }
