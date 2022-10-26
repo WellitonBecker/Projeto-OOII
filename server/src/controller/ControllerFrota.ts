@@ -42,4 +42,17 @@ export class ControllerFrota {
         return res.status(200).json(await modelFrota.visualizar(codigo));
     }
 
+    async alterar(req: Request, res: Response){
+        const modelFrota = new ModelFrota();
+        const codigo = req.params.codigo;
+        const { nome, ano, codTipoVeiculo, codMarca } = req.body;
+
+        const result = await modelFrota.alterar({ nome, ano, codTipoVeiculo, codMarca },codigo);
+        if(result){
+            return res.status(200).json({"Mensagem":"Registro alterado com sucesso", "dados":result});
+        } else {
+            return res.status(200).json({"Mensagem":"Não foi possível alterar o registro", "dados":result});
+        }
+    }
+
 }

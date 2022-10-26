@@ -18,8 +18,6 @@ export class ModelTipoVeiculo {
             throw new AppError("Nome já está sendo utilzado");
         }
 
-        
-
         const tipoVeiculo = await prisma.tipoVeiculo.create({
             data:{
                 nome
@@ -62,6 +60,17 @@ export class ModelTipoVeiculo {
             throw new AppError(`Tipo de veículo com o código '${codigo}' não existe`);
         }
         return tipoVeiculo;
+    }
+
+    async alterar({nome}:InterfaceTipoVeiculo, codigo:string){
+        return await prisma.tipoVeiculo.update({
+            where:{
+                codigo
+            },
+            data:{
+                nome
+            }
+        })
     }
     
 }

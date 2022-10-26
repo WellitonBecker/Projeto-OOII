@@ -63,4 +63,25 @@ export class ModelMarca {
         return marca;
     }
     
+    async alterar({nome, pais}:InterfaceMarca, codigo:string){
+        const original = await prisma.marca.findUnique({
+            where:{
+                codigo
+            }
+        });
+
+        const newNome  = nome === "" && original?.nome !== nome ? original?.nome : nome;
+        const newPais = pais === "" && original?.pais !== pais ? original?.pais : pais;
+
+        return await prisma.marca.update({
+            where:{
+                codigo
+            },
+            data:{
+                nome:newNome,
+                pais:newPais
+            }
+        })
+    }
+    
 }

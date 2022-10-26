@@ -40,5 +40,18 @@ export class ControllerEmpresa {
 
         return res.status(200).json(await (new ModelEmpresa()).visualizar(codigo));
     }
+    
+    async alterar(req: Request, res: Response){
+        const modelEmpresa = new ModelEmpresa();
+        const codigo = req.params.codigo;
+        const { email, nome } = req.body;
+
+        const result = await modelEmpresa.alterar({ email, nome }, codigo);
+        if(result){
+            return res.status(200).json({"Mensagem":"Registro alterado com sucesso", "dados":result});
+        } else {
+            return res.status(200).json({"Mensagem":"Não foi possível alterar o registro", "dados":result});
+        }
+    }
 
 }

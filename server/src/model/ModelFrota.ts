@@ -74,5 +74,30 @@ export class ModelFrota {
         }
         return frota;
     }
+        
+    async alterar({nome, ano, codMarca, codTipoVeiculo}:InterfaceFrota, codigo:string){
+        const original = await prisma.frota.findUnique({
+            where:{
+                codigo
+            }
+        });
+
+        const newNome       = nome === "" && original?.nome !== nome ? original?.nome : nome;
+        const newAno        = ano === "" && original?.ano !== ano ? original?.ano : ano;
+        const newCodMarca   = codMarca === "" && original?.codMarca !== codMarca ? original?.codMarca : codMarca;
+        const newCodTipoVei = codTipoVeiculo === "" && original?.codTipoVeiculo !== codTipoVeiculo ? original?.codTipoVeiculo : codTipoVeiculo;
+
+        return await prisma.frota.update({
+            where:{
+                codigo
+            },
+            data:{
+                nome:newNome,
+                ano:newAno,
+                codMarca:newCodMarca,
+                codTipoVeiculo:newCodTipoVei
+            }
+        })
+    }
 
 }

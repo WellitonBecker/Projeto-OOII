@@ -41,5 +41,18 @@ export class ControllerTipoVeiculo {
 
         return res.status(200).json(await modelTipoVeiculo.visualizar(codigo));
     }
+
+    async alterar(req: Request, res: Response){
+        const modelTipoVeiculo = new ModelTipoVeiculo();
+        const codigo = req.params.codigo;
+        const {nome} = req.body;
+
+        const result = await modelTipoVeiculo.alterar({nome},codigo);
+        if(result){
+            return res.status(200).json({"Mensagem":"Registro alterado com sucesso", "dados":result});
+        } else {
+            return res.status(200).json({"Mensagem":"Não foi possível alterar o registro", "dados":result});
+        }
+    }
     
 }

@@ -41,4 +41,18 @@ export class ControllerMarca {
 
         return res.status(200).json(await modelMarca.visualizar(codigo));
     }
+    
+    async alterar(req: Request, res: Response){
+        const modelMarca = new ModelMarca();
+        const codigo = req.params.codigo;
+        const { nome, pais } = req.body;
+
+        const result = await modelMarca.alterar({ nome, pais },codigo);
+        if(result){
+            return res.status(200).json({"Mensagem":"Registro alterado com sucesso", "dados":result});
+        } else {
+            return res.status(200).json({"Mensagem":"Não foi possível alterar o registro", "dados":result});
+        }
+    }
+
 }

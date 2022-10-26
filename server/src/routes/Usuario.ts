@@ -8,5 +8,6 @@ usuarioRoutes.get("/", controllerUsuario.listar);
 usuarioRoutes.post("/", controllerUsuario.inserir);
 usuarioRoutes.delete("/:codigo", controllerUsuario.deletar);
 usuarioRoutes.get("/:codigo", controllerUsuario.visualizar);
+usuarioRoutes.put("/:codigo", controllerUsuario.alterar);
 
 export { usuarioRoutes };

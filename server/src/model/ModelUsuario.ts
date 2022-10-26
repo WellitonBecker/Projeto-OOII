@@ -74,4 +74,29 @@ export class ModelUsuario {
         return usuario;
     }
 
+    async alterar({email, nome, login, senha}:InterfaceUsuario, codigo:string){
+        const original = await prisma.usuario.findUnique({
+            where:{
+                codigo
+            }
+        });
+
+        const newNome  = nome === "" && original?.nome !== nome ? original?.nome : nome;
+        const newEmail = email === "" && original?.email !== email ? original?.email : email;
+        const newLogin = login === "" && original?.login !== login ? original?.login : login;
+        const newSenha = senha === "" && original?.senha !== senha ? original?.senha : senha;
+
+        return await prisma.usuario.update({
+            where:{
+                codigo
+            },
+            data:{
+                nome:newNome,
+                email:newEmail,
+                login:newLogin,
+                senha:newSenha
+            }
+        })
+    }
+
 }

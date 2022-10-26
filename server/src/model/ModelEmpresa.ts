@@ -61,5 +61,26 @@ export class ModelEmpresa {
         }
         return empresa;
     }
+            
+    async alterar({email, nome}:InterfaceEmpresa, codigo:string){
+        const original = await prisma.empresa.findUnique({
+            where:{
+                codigo
+            }
+        });
+
+        const newNome  = nome === "" && original?.nome !== nome ? original?.nome : nome;
+        const newEmail = email === "" && original?.email !== email ? original?.email : email;
+
+        return await prisma.empresa.update({
+            where:{
+                codigo
+            },
+            data:{
+                nome:newNome,
+                email:newEmail
+            }
+        })
+    }
 
 }
