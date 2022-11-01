@@ -44,8 +44,7 @@ export class ModelMarca {
     async deletar(codigo:string) {
         return await prisma.marca.delete({
             where: {
-                codigo,
-                nome : "FIAT"
+                codigo
             }
         });
     }
